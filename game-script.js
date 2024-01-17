@@ -24,7 +24,6 @@ function getPlayerChoice(choice) {
     if (choice !== "Rock" && choice !== "Paper" && choice !== "Scissors") {
         choice = console.log("Try again!")
     } else {
-        choice = a + b;
         console.log(choice);
         return choice;
     }
