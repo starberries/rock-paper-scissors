@@ -1,3 +1,13 @@
+const rock = document.getElementById("rock").addEventListener("click", () => {
+    game("rock");
+});
+const paper = document.getElementById("paper").addEventListener("click", () => {
+    game("paper");
+});
+const scissors = document.getElementById("scissors").addEventListener("click", () => {
+    game("scissors");
+});
+
 function getComputerChoice() {
     let options = ["Rock", "Paper", "Scissors"];
     let i = Math.floor(Math.random() * 3);
@@ -6,8 +16,8 @@ function getComputerChoice() {
     return result;
 };
 
-function getPlayerChoice() {
-    let choice = prompt("Rock, paper, or scissors?");
+function getPlayerChoice(choice) {
+    // let choice = prompt("Rock, paper, or scissors?");
     let a = choice.charAt(0).toUpperCase();
     let b = choice.slice(1).toLowerCase();
     choice = a + b;
@@ -45,16 +55,18 @@ function gameRound(playerSelection, computerSelection) {
     return result;
 };
 
-function game() {
+function game(playerChoice) {
     let wins = 0;
-    let result
-    for (let i = 0; i < 5; i++) {
-        result = gameRound(getPlayerChoice(), getComputerChoice());
-        if (result) {
-            wins++;
-        }
+    let result = gameRound(getPlayerChoice(playerChoice), getComputerChoice());
+    if (result) {
+        wins++;
     }
+    // let result
+    // for (let i = 0; i < 5; i++) {
+    //     result = gameRound(getPlayerChoice(), getComputerChoice());
+    //     if (result) {
+    //         wins++;
+    //     }
+    // }
     console.log(`You won ${wins} rounds!`);
 };
-
-game();
