@@ -8,6 +8,10 @@ const scissors = document.getElementById("scissors").addEventListener("click", (
     game("scissors");
 });
 
+
+let playerWins = 0;
+let computerWins = 0;
+
 function getComputerChoice() {
     let options = ["Rock", "Paper", "Scissors"];
     let i = Math.floor(Math.random() * 3);
@@ -23,43 +27,57 @@ function getPlayerChoice(choice) {
 };
 
 function gameRound(playerSelection, computerSelection) {
-    let result
+    let scores = [0,1]; // Represent player as index 0 and computer as index 1 to return multiple values
     let resultMessage = document.getElementById("results")
 
     if (playerSelection == computerSelection) {
-        result = 0;
+        scores[0] = 0;
+        scores[1] = 0;
         resultMessage.textContent = `${playerSelection} vs. ${computerSelection} is a tie!`;
     }
     
     else if ((playerSelection == "Rock" && computerSelection == "Scissors") ||
     (playerSelection == "Paper" && computerSelection == "Rock") ||
     (playerSelection == "Scissors" && computerSelection == "Paper")) {
-        result = 1
+        scores[0] = 1;
+        scores[1] = 0;
         resultMessage.textContent = `You win! ${playerSelection} beats ${computerSelection}!`;    
     } 
     
     else if ((playerSelection == "Rock" && computerSelection == "Paper") ||
     (playerSelection == "Paper" && computerSelection == "Scissors") ||
     (playerSelection == "Scissors" && computerSelection == "Rock")) {
-        result = 0;
+        scores[0] = 0;
+        scores[1] = 1;
         resultMessage.textContent = `You lose! ${computerSelection} beats ${playerSelection}!`;
     }
-    return result;
+    return scores;
 };
 
 function game(playerChoice) {
-    let wins = 0;
-    let result = gameRound(getPlayerChoice(playerChoice), getComputerChoice());
     let resultMessage = document.getElementById("results");
-    if (result) {
-        wins++;
+    let scores = gameRound(getPlayerChoice(playerChoice), getComputerChoice());
+
+    playerWins += scores[0];
+    computerWins += scores[1];
+    console.log(scores);
+    console.log(playerWins);
+    console.log(computerWins);
+
+    resultMessage.textContent += (` Your score: ${playerWins} | Computer's score: ${computerWins}`);
+
+
+    let victoryMessage = document.createElement("p", "");
+    if (playerWins == 5) {
+        resultMessage.appendChild(victoryMessage);
+        victoryMessage.textContent = "You win!"
+        playerWins = 0;
+        computerWins = 0;
     }
-    // let result
-    // for (let i = 0; i < 5; i++) {
-    //     result = gameRound(getPlayerChoice(), getComputerChoice());
-    //     if (result) {
-    //         wins++;
-    //     }
-    // }
-    resultMessage.textContent += (`You won ${wins} rounds!`);
+    else if (computerWins == 5) {
+        resultMessage.appendChild(victoryMessage);
+        victoryMessage.textContent = "Computer wins!"
+        playerWins = 0;
+        computerWins = 0;
+    }
 };
